@@ -1,1 +1,31 @@
-<h1>Hello from {{name}}</h1>
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+
+ <title>My First Index HTML Page</title>
+ <meta name="keywords" content="Books, recent, Learning, library">
+ <meta name="description" content="Books website">
+ <meta name="author" content="author name">
+ <link rel="icon" href="{% static 'qu-icon.jpeg' %}">
+ <link rel="stylesheet" href=" { %static 'styles.css' %} ">
+ <meta charset="UTF-8">
+</head>
+<body>
+    <div class="topnav"> <!-- add class attribute -->
+        <a class="active" href="{% url "books.index" %}">Home</a>
+        <a href="{% url "books.list_books" %}">List Books</a>
+        <a href="{% url "books.aboutus" %}">About</a>
+        </div>
+        <h1 style="color: blue;">This is heading 1 (Library)</h1> <!-- add inline css -->
+        <p style="color: white;background-color: black;">This is a paragraph text </p>
+ <hr>
+ <!-- This is a comment in HTML, not render in the bowser -->
+ <h2 style="color: rebeccapurple;">This is heading 2</h2>
+ <p>This is some other text. <br> with newline <br> and another line</p>
+ <hr>
+
+ <h2 style="color: rebeccapurple;">This is heading 2</h2>
+ <p>This is some other text.</p>
+</body>
+</html>

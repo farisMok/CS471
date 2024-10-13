@@ -17,10 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 import apps.bookmodule.views
+import apps.usermodule.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("apps.bookmodule.urls")),
     path('books/', include("apps.bookmodule.urls")),
-    # path('users/', include("apps.usermodule.urls")),
+    path('users/', include("apps.usermodule.urls")),
 ]

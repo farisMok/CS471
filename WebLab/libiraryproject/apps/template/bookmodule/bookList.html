@@ -1,7 +1,47 @@
 {% extends "bookmodule/layouts/base.html" %}
 {% load static %}
 {% block title %} Searching Page {% endblock title %}
-
+{% block stylesheets %}
+<style>
+ h1{
+    color: darkslategray;
+ }
+ h2{
+    color: rgb(38, 59, 59);
+ }
+ p{
+    font-size: 24px;
+    color: rgb(44, 75, 75);
+ }
+ .filtered{
+    border: 1px solid #cdcdcd;
+    border-radius: 12px;
+    display: flex;
+    text-align: left;
+    background-color: rgb(135, 172, 172);
+    padding:25px;
+    justify-content:left;
+    margin-bottom: 20px;
+ }
+ .book{
+    margin-right: 50px;
+ }
+</style>
+{% endblock stylesheets %}
 {% block content %}
-{{books}}
+<!-- {{books}} -->
+<h1>Filter books</h1>
+<hr>
+{% for obj in books %}
+<div class="filtered">
+    <div class="book">
+        <h2>ID</h2> 
+        <p>{{obj.id}}</p>
+    </div>
+    <div class="book">
+        <h2>Title</h2>
+        <p>{{obj.title}}</p>
+    </div>
+</div>
+{% endfor %}
 {% endblock content %}

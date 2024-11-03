@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Book
+from django.db.models import Q
+from django.db.models import Count, Sum,Max,Min,Avg
+
 
 def index(request):
  return render(request, "bookmodule/index.html")
@@ -60,4 +63,30 @@ def complex_query(request):
         return render(request, 'bookmodule/bookList.html', {'books':mybooks})
     else:
         return render(request, 'bookmodule/index.html')
+
+def lab8_task1(request):
+   mybooks = Book.objects.filter(Q(price__lte = 50))
+   return render(request, 'bookmodule/booklist.html',{'books':mybooks})
+
+def lab8_task2(request):
+   mybooks = Book.objects.filter(Q(edition__gt = 2) & (Q(title__icontains='qu')|Q(author__icontains='qu')))
+   return render(request, 'bookmodule/booklist.html',{'books':mybooks})
+
+def lab8_task3(request):
+    mybooks = Book.objects.filter(~Q(edition__gt = 2) & (~Q(title__icontains='qu')|~Q(author__icontains='qu')))
+    return render(request, 'bookmodule/booklist.html',{'books':mybooks})
+
+def lab8_task4(request):
+   mybooks = Book.objects.all().order_by('title')
+   return render(request, 'bookmodule/booklist.html',{'books':mybooks})
+
+def lab8_task5(request):
+    mybooks = Book.objects.aggregate(
+        total_books=Count('id'),
+        total_price=Sum('price'),
+        average_price=Avg('price'),
+        max_price=Max('price'),
+        min_price=Min('price')
+    )
+    return render(request, 'bookmodule/Lab8_task5.html',{'books':mybooks})
 

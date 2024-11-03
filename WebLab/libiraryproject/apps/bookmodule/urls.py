@@ -14,4 +14,9 @@ urlpatterns = [
  path('create/',views.createBook,name="book.create"),
  path('simple/query/',views.simple_query, name="book.simple_query"),
  path('complex/query/',views.complex_query,name="book.complex_query"),
+ path('lab8/task1',views.lab8_task1,name="Lab8_Task1"),
+ path('lab8/task2',views.lab8_task2,name="Lab8_Task2"),
+ path('lab8/task3',views.lab8_task3,name="Lab8_Task3"),
+ path('lab8/task4',views.lab8_task4,name="Lab8_Task4"),
+ path('lab8/task5',views.lab8_task5,name="Lab8_Task5"),  
 ]

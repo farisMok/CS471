@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from .models import Book
 from django.db.models import Q
 from django.db.models import Count, Sum,Max,Min,Avg
+from django.shortcuts import  redirect, get_object_or_404
+from .forms import BookForm
 
 
 def index(request):
@@ -90,3 +92,66 @@ def lab8_task5(request):
     )
     return render(request, 'bookmodule/Lab8_task5.html',{'books':mybooks})
 
+def lab9_task1(request):
+   mybooks=Book.objects.filter(title__icontains='and')
+   return render(request, 'bookmodule/lab9_task1.html',{'books':mybooks})
+
+def add_book(request):
+     if request.method == "POST":
+        title = request.POST.get('title')
+        author = request.POST.get('author')
+        price = float(request.POST.get('price'))
+        edition = int(request.POST.get('edition'))
+
+        Book.objects.create(
+            title=title,
+            author=author,
+            price=price,
+            edition=edition
+        )
+        return redirect('/books/lab9_part1/listbooks')
+     return render(request, 'bookmodule/add.html')
+
+
+def edit_book(request, id):
+    book = get_object_or_404(Book, id=id)
+    
+    if request.method == "POST":
+        book.title = request.POST.get('title')
+        book.author = request.POST.get('author')
+        book.price = float(request.POST.get('price'))
+        book.edition = int(request.POST.get('edition'))
+        book.save()
+        return redirect('/books/lab9_part1/listbooks')  # Update redirect URL
+
+    return render(request, 'bookmodule/edit.html', {'book': book})
+
+def delete_book(request, id):
+    book = get_object_or_404(Book, id=id)
+    book.delete()
+    return redirect('/books/lab9_part1/listbooks') 
+
+def add_book2(request):
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()  
+            return redirect('/books/lab9_part1/listbooks') 
+    else:
+        form = BookForm()  
+    
+    return render(request, 'bookmodule/add_book2.html', {'form': form})
+
+
+def edit_book2(request, id):
+    book = get_object_or_404(Book, id=id)  # Get the book by its id
+    
+    if request.method == "POST":
+        form = BookForm(request.POST, instance=book)  # Bind the form to the book instance
+        if form.is_valid():
+            form.save()  # Save the updated book
+            return redirect('/books/lab9_part1/listbooks')  # Redirect to book list after saving
+    else:
+        form = BookForm(instance=book)  # Create a form with existing book data
+    
+    return render(request, 'bookmodule/edit_book2.html', {'form': form, 'book': book})

@@ -144,14 +144,14 @@ def add_book2(request):
 
 
 def edit_book2(request, id):
-    book = get_object_or_404(Book, id=id)  # Get the book by its id
+    book = get_object_or_404(Book, id=id) 
     
     if request.method == "POST":
-        form = BookForm(request.POST, instance=book)  # Bind the form to the book instance
+        form = BookForm(request.POST, instance=book)  
         if form.is_valid():
-            form.save()  # Save the updated book
-            return redirect('/books/lab9_part1/listbooks')  # Redirect to book list after saving
+            form.save()  
+            return redirect('/books/lab9_part1/listbooks')  
     else:
-        form = BookForm(instance=book)  # Create a form with existing book data
+        form = BookForm(instance=book)  
     
     return render(request, 'bookmodule/edit_book2.html', {'form': form, 'book': book})

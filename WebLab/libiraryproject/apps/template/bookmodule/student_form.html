@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if student_form.instance.pk %}Edit{% else %}Add{% endif %} Student</title>
+</head>
+<body>
+    <h1>{% if student_form.instance.pk %}Edit{% else %}Add{% endif %} Student</h1>
+
+    <!-- Student Form -->
+    <form method="POST">
+        {% csrf_token %}
+
+        <div>
+            <h3>Student Information</h3>
+            {{ student_form.as_p }}
+        </div>
+
+        <div>
+            <h3>Address Information</h3>
+            {{ address_form.as_p }}
+        </div>
+
+        <button type="submit">
+            {% if student_form.instance.pk %}Save{% else %}Add{% endif %} Student
+        </button>
+    </form>
+
+    <br>
+    <!-- Back to Student List Link -->
+    <a href="{% url 'student_list' %}">Back to Student List</a>
+
+</body>
+</html>

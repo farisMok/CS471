@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Book
+from .models import Book,Address,Student,Student2
 from django.db.models import Q
 from django.db.models import Count, Sum,Max,Min,Avg
 from django.shortcuts import  redirect, get_object_or_404
-from .forms import BookForm
+from .forms import BookForm,AddressForm,StudentForm,StudentForm2
 
 
 def index(request):
@@ -155,3 +155,79 @@ def edit_book2(request, id):
         form = BookForm(instance=book)  
     
     return render(request, 'bookmodule/edit_book2.html', {'form': form, 'book': book})
+
+
+def student_list(request):
+    students = Student.objects.all()
+    return render(request, 'bookmodule/student_list.html', {'students': students})
+
+
+def student_add(request):
+    if request.method == 'POST':
+        student_form = StudentForm(request.POST)
+        address_form = AddressForm(request.POST)
+        if student_form.is_valid() and address_form.is_valid():
+            address = address_form.save()
+            student = student_form.save(commit=False)
+            student.address = address  
+            student.save()
+            return redirect('student_list')
+    else:
+        student_form = StudentForm()
+        address_form = AddressForm()
+
+    return render(request, 'bookmodule/student_form.html', {'student_form': student_form, 'address_form': address_form})
+
+
+def student_update(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+    if request.method == 'POST':
+        student_form = StudentForm(request.POST, instance=student)
+        address_form = AddressForm(request.POST, instance=student.address)
+        if student_form.is_valid() and address_form.is_valid():
+            address_form.save()
+            student_form.save()
+            return redirect('student_list')
+    else:
+        student_form = StudentForm(instance=student)
+        address_form = AddressForm(instance=student.address)
+    return render(request, 'bookmodule/student_form.html', {'student_form': student_form, 'address_form': address_form})
+
+def student_delete(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+    student.delete()
+    return redirect('student_list')
+
+def address_delete(request, pk):
+    address = get_object_or_404(Address, pk=pk)
+    address.delete()
+    return redirect('student_list')
+
+def student_add2(request):
+    if request.method == 'POST':
+        student_form = StudentForm2(request.POST)
+        if student_form.is_valid():
+            student = student_form.save()
+            addresses = student_form.cleaned_data.get('addresses')
+            student.addresses.set(addresses)  
+            student.save()  
+            return redirect('student_list')  
+    else:
+        student_form = StudentForm2()
+
+    return render(request, 'bookmodule/student_form.html', {'student_form': student_form})
+
+def student_update2(request, pk):
+    student = get_object_or_404(Student2, pk=pk)  
+    if request.method == 'POST':
+        student_form = StudentForm2(request.POST, instance=student)
+        if student_form.is_valid():
+            student = student_form.save()  
+            addresses = student_form.cleaned_data.get('addresses')
+            student.addresses.set(addresses)  
+            student.save()  
+            return redirect('student_list')  
+    else:
+        student_form = StudentForm2(instance=student)
+
+    return render(request, 'bookmodule/student_form.html', {'student_form': student_form})

@@ -1,0 +1,9 @@
+{% extends "bookmodule/layouts/base.html" %}
+{% block title %} Sign up {% endblock %}
+{% block content %}
+<form method="post" action="">
+{% csrf_token %}
+{{form.as_p}}
+<button type="submit" name="register">تسجيل> /button>
+</form>
+{% endblock content %}

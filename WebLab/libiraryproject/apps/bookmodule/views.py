@@ -4,7 +4,9 @@ from .models import Book,Address,Student,Student2
 from django.db.models import Q
 from django.db.models import Count, Sum,Max,Min,Avg
 from django.shortcuts import  redirect, get_object_or_404
-from .forms import BookForm,AddressForm,StudentForm,StudentForm2
+from .forms import BookForm,AddressForm,StudentForm,StudentForm2,SignUpForm
+from django.contrib.auth import login,logout,authenticate
+from django.contrib import messages
 
 
 def index(request):
@@ -163,71 +165,112 @@ def student_list(request):
 
 
 def student_add(request):
-    if request.method == 'POST':
-        student_form = StudentForm(request.POST)
-        address_form = AddressForm(request.POST)
-        if student_form.is_valid() and address_form.is_valid():
-            address = address_form.save()
-            student = student_form.save(commit=False)
-            student.address = address  
-            student.save()
+    form = StudentForm()
+    if request.method=='POST':
+        form=StudentForm(request.POST)
+        if form.is_valid:
+            form.save()
             return redirect('student_list')
-    else:
-        student_form = StudentForm()
-        address_form = AddressForm()
-
-    return render(request, 'bookmodule/student_form.html', {'student_form': student_form, 'address_form': address_form})
+    return render(request, 'bookmodule/student_form.html', {'form':form})
 
 
-def student_update(request, pk):
-    student = get_object_or_404(Student, pk=pk)
-    if request.method == 'POST':
-        student_form = StudentForm(request.POST, instance=student)
-        address_form = AddressForm(request.POST, instance=student.address)
-        if student_form.is_valid() and address_form.is_valid():
-            address_form.save()
-            student_form.save()
+def student_update(request, bID):
+    student = Student.objects.get(id=bID)
+    if request.method=='POST':
+        form = StudentForm(request.POST,instance=student)
+        if form.is_valid:
+            form.save()
             return redirect('student_list')
-    else:
-        student_form = StudentForm(instance=student)
-        address_form = AddressForm(instance=student.address)
-    return render(request, 'bookmodule/student_form.html', {'student_form': student_form, 'address_form': address_form})
+    form = StudentForm(instance=student)
+    return render(request, 'bookmodule/student_form.html', {'form':form})
 
-def student_delete(request, pk):
-    student = get_object_or_404(Student, pk=pk)
+def student_delete(request, bID):
+    student = Student.objects.get(id=bID)
     student.delete()
     return redirect('student_list')
 
-def address_delete(request, pk):
-    address = get_object_or_404(Address, pk=pk)
-    address.delete()
-    return redirect('student_list')
 
-def student_add2(request):
-    if request.method == 'POST':
-        student_form = StudentForm2(request.POST)
-        if student_form.is_valid():
-            student = student_form.save()
-            addresses = student_form.cleaned_data.get('addresses')
-            student.addresses.set(addresses)  
-            student.save()  
-            return redirect('student_list')  
+def student_list2(request):
+    if request.user.is_authenticated:
+        students = Student2.objects.all()
+        return render(request, 'bookmodule/student_list2.html', {'students': students})
     else:
-        student_form = StudentForm2()
+       return redirect(register)
 
-    return render(request, 'bookmodule/student_form.html', {'student_form': student_form})
 
-def student_update2(request, pk):
-    student = get_object_or_404(Student2, pk=pk)  
-    if request.method == 'POST':
-        student_form = StudentForm2(request.POST, instance=student)
-        if student_form.is_valid():
-            student = student_form.save()  
-            addresses = student_form.cleaned_data.get('addresses')
-            student.addresses.set(addresses)  
-            student.save()  
-            return redirect('student_list')  
+def addStudent2(request):
+    if request.user.is_authenticated:
+        if request.method=='POST':
+            form=StudentForm2(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('listStudent2')
+        else:
+            form=StudentForm2()
+            return render(request,'bookmodule/student_form.html',{'form':form})
     else:
-        student_form = StudentForm2(instance=student)
+        return redirect(register)      
+        
+        
 
-    return render(request, 'bookmodule/student_form.html', {'student_form': student_form})
+def editStudent2(request,bID):
+    if request.user.is_authenticated:
+        student = Student2.objects.get(id=bID)
+        if request.method=='POST':
+            form = StudentForm2(request.POST,instance=student)
+            if form.is_valid():
+                form.save()
+                return redirect('listStudent2')
+        form = StudentForm2(instance=student)
+        return render(request,'bookmodule/student_form.html',{'form':form})
+    else:
+        return redirect(register)      
+        
+            
+def deleteStudent2(request,bID):
+    if request.user.is_authenticated:
+        student = Student2.objects.get(id=bID)
+        student.delete()
+        return redirect('listStudent2')
+    else:
+        return redirect(register)      
+
+
+def homepage(request):
+    return redirect('listStudent2')
+
+
+def loginUser(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, "You have successfully logged in!")
+            return redirect(homepage)
+        else:
+            messages.error(request, "Invalid username or password.")
+    return render(request, 'bookmodule/login.html')
+
+def register(request):
+    form =SignUpForm()
+    if request.method=='POST':
+        form=SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            
+            login(request, user)
+            messages.success(request, "You Have Registered Successfully!")
+            return redirect(homepage)
+        else:
+            messages.error(request, form.error_messages)
+    return render(request,'bookmodule/register.html',{'form':form})
+
+def logoutuser(request):
+    logout(request)
+    messages.success(request,"You have been logged out")
+    return redirect(register)

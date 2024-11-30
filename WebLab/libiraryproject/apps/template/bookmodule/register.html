@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            {{ form.non_field_errors }} 
+        </div>
+        <div>
+            {{ form.username.label_tag }} {{ form.username }} <br>
+        </div>
+        <div>
+            {{ form.password1.label_tag }} {{ form.password1 }} <br>
+        </div>
+        <div>
+            {{ form.password2.label_tag }} {{ form.password2 }} <br>
+        </div>
+        <button type="submit">Register</button>
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        
+    </form>
+
+    <br>
+
+    <a href="{% url 'loginUser' %}">Login</a>
+    
+
+
+    </form>
+</body>

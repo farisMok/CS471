@@ -9,7 +9,12 @@
 </head>
 
 <body>
-    <a href="{%url 'student_add'%}" class="button" >Add student</a>
+    
+    {% if user.is_authenticated %}
+    <a href="{% url 'logoutuser' %}">Logout</a>
+    {% endif %}
+    <br>
+    <a href="{%url 'addStudent2'%}" class="button" >Add student</a>
     <br>
     <table>
         <tr>
@@ -25,9 +30,13 @@
             <tr>
                 <td>{{student.name}}</td>
                 <td>{{student.age}}</td>
-                <td>{{student.adress}}</td>
-                <td><a href="{% url 'student_update' student.id %}" class="button" >Edit</a></td>
-                <td><a href="{% url 'student_delete' student.id %}"  class="button" >Delete</a></td>
+                <td>
+                    {% for address in student.addresses.all %}
+                        {{ address.city }}  
+                    {% endfor %}
+                </td>
+                <td><a href="{% url 'editStudent2' student.id %}" class="button" >Edit</a></td>
+                <td><a href="{% url 'deleteStudent2' student.id %}"  class="button" >Delete</a></td>
 
             </tr>
         {% endfor %}

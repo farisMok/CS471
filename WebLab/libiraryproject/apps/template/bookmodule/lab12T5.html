@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 5</title>
+</head>
+<body>
+    <div id="tableContainer"></div> 
+
+    <script>
+        const data = [
+            ['Name', 'Age', 'City'],
+            ['Faris', '24', 'Qassim'],
+            ['AAA', '30', 'Riyadh'],
+            ['BBB', '21', 'Riyadh'],
+        ];
+
+ 
+        const tableContainer = document.getElementById('tableContainer');
+
+     
+        const table = document.createElement('table');
+        table.style.border = '1px solid black';  
+
+   
+        data.forEach((row, rowIndex) => {
+       
+            const tr = document.createElement('tr');
+
+      
+            row.forEach((cell, colIndex) => {
+               
+                const td = document.createElement('td');
+                td.textContent = cell;  
+                td.style.border = '1px solid black';  
+                td.style.padding = '8px';  
+                tr.appendChild(td);
+            });
+            table.appendChild(tr);
+        });
+        tableContainer.appendChild(table);
+    </script>
+</body>
+</html>

@@ -37,4 +37,9 @@ urlpatterns = [
  path('lab11/register', views.register, name= "register"),
  path('lab11/logoutuser', views.logoutuser, name= "logoutuser"),
  path('lab11/loginUser', views.loginUser, name= "loginUser"),
+ path('lab12/task1',views.lab12_task1, name="Lab12.task1"),
+ path('lab12/task2',views.lab12_task2, name="Lab12.task2"),
+ path('lab12/task3',views.lab12_task3, name="Lab12.task3"),
+ path('lab12/task4',views.lab12_task4, name="Lab12.task4"),
+ path('lab12/task5',views.lab12_task5, name="Lab12.task5"),
 ]

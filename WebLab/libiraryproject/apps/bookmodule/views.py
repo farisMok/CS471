@@ -274,3 +274,19 @@ def logoutuser(request):
     logout(request)
     messages.success(request,"You have been logged out")
     return redirect(register)
+
+
+def lab12_task1(request):
+    return render(request,'bookmodule/lab12T1.html')
+
+def lab12_task2(request):
+    return render(request,'bookmodule/lab12T2.html')
+
+def lab12_task3(request):
+    return render(request,'bookmodule/lab12T3.html')
+
+def lab12_task4(request):
+    return render(request,'bookmodule/lab12T4.html')
+
+def lab12_task5(request):
+    return render(request,'bookmodule/lab12T5.html')

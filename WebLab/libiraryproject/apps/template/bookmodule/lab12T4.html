@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 4</title>
+    <style>
+        #myDiv {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #000;
+            margin-top: 20px;
+            text-align: center;
+            line-height: 200px;
+            background-color: lightgreen; /* Initial background color */
+            font-size: 20px; /* Initial font size */
+            transition: all 0.3s ease; /* Smooth transition for style changes */
+        }
+    </style>
+</head>
+<body>
+    <div id="myDiv">Hover over me!</div>
+
+    <script>
+        const myDiv = document.getElementById('myDiv');
+        myDiv.onmouseover = function() {
+            myDiv.style.backgroundColor = 'lightblue';  
+            myDiv.style.fontSize = '30px';  
+        }
+        myDiv.onmouseout = function() {
+            myDiv.style.backgroundColor = 'lightgreen';  
+            myDiv.style.fontSize = '20px';  
+        }
+    </script>
+</body>
+</html>

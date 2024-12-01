@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 2</title>
+</head>
+<body>
+
+
+    <button id="addItemButton">Add New Item</button>
+
+    <ul id="myList">
+    </ul>
+
+    <script>
+    
+        const addItemButton = document.getElementById('addItemButton');
+        const myList = document.getElementById('myList');
+
+        let itemCount = 1;
+    
+        addItemButton.onclick = function() {
+            const newItem = document.createElement('li');
+            newItem.innerText = 'Item ' + itemCount;
+            myList.appendChild(newItem);
+            itemCount++;
+        }
+    </script>
+</body>
+</html>

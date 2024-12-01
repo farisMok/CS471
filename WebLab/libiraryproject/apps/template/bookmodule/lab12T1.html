@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 1</title>
+    <style>
+        #myDiv {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #000;
+            margin-top: 20px;
+            text-align: center;
+            line-height: 200px;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="colorButton">Change Background Color</button>
+    <button id="textButton">Change Text</button>
+
+    <div id="myDiv">Original Text</div>
+
+    <script>
+        let colorChanged = false;
+        let textChanged = false;
+
+        document.getElementById('colorButton').onclick = function() {
+            if (colorChanged) {
+                document.getElementById('myDiv').style.backgroundColor = ''; 
+            } else {
+                document.getElementById('myDiv').style.backgroundColor = 'lightblue'; 
+            }
+            colorChanged = !colorChanged;
+        }
+
+        
+        document.getElementById('textButton').onclick = function() {
+            if (textChanged) {
+                document.getElementById('myDiv').innerText = 'Original Text'; 
+            } else {
+                document.getElementById('myDiv').innerText = 'New Text!'; 
+            }
+            textChanged = !textChanged; 
+        }
+    </script>
+</body>
+</html>

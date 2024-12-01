@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 3</title>
+    <style>
+        #myDiv {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #000;
+            margin-top: 20px;
+            text-align: center;
+            line-height: 200px;
+            background-color: lightcoral;
+        }
+    </style>
+</head>
+<body>
+
+
+    <button id="toggleButton">Hide/Show Div</button>
+
+    <div id="myDiv">This is a div element.</div>
+
+    <script>
+        
+        const toggleButton = document.getElementById('toggleButton');
+        const myDiv = document.getElementById('myDiv');
+
+        toggleButton.onclick = function() {
+          
+            if (myDiv.style.display === 'none') {
+                myDiv.style.display = 'block';
+            } else {
+                myDiv.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
